@@ -1,6 +1,12 @@
 const fs = require("fs");
 const Joi = require("@hapi/joi");
 
+// {
+//   id: "uuid",
+//   text: "",
+//   completed: boolean
+// }
+
 // use Joi to create a data schema
 const schema = Joi.object({
   // each key has a datatype and constraints

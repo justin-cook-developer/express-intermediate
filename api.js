@@ -40,6 +40,33 @@ router.post("/todos", async (request, response, next) => {
   }
 });
 
+// only update the completed field of a todo
+router.put("/todos/:id", async (request, response, next) => {
+  try {
+    console.log(request.params.id);
+    console.log(request.body);
+    const todos = await db.readFile(dbFilePath);
+
+    let updatedTodo;
+
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === request.params.id) {
+        const newTodo = { ...todo, completed: request.body.completed };
+        updatedTodo = newTodo;
+        return newTodo;
+      } else {
+        return todo;
+      }
+    });
+
+    await db.writeFile(dbFilePath, updatedTodos);
+
+    response.json(updatedTodo);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = {
   router,
 };
